@@ -1,0 +1,1 @@
+export type Platform = 'linux' | 'win' | 'mac' | 'android' | 'ios' | 'none'
