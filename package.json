@@ -24,6 +24,7 @@
     "shadowsocks-link-generator": "^2.0.1",
     "socket.io": "^4.4.1",
     "socket.io-client": "^4.4.1",
+    "url-search-params-polyfill": "^8.1.1",
     "vue": "^3.0.0",
     "vue-router": "^4.0.0"
   },

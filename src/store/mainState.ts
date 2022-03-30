@@ -5,8 +5,8 @@ import api from 'app/logic/UI/apiUI'
 
 const isEnabled = ref(false)
 
-watch(isEnabled, state => api.sendToMain('toggleEnable', state))
-api.onFromMain('resultEnable', ({ success }: {success: boolean}) => {
+watch(isEnabled, state => api.sendTo('toggleEnable', state))
+api.onFrom('resultEnable', ({ success }: {success: boolean}) => {
   isEnabled.value = success
   Notify.create({
     icon: success ? 'check' : 'error',

@@ -17,8 +17,8 @@
  */
 
 const { contextBridge, ipcRenderer } = require('electron')
-
 contextBridge.exposeInMainWorld('electron', {
-  sendToMain: (cmd, data) => ipcRenderer.send(cmd, data),
-  onFromMain: (cmd, cb) => ipcRenderer.on(cmd, (e, data) => cb && cb(data))
+  sendTo: (cmd, data) => ipcRenderer.send(cmd, data),
+  onFrom: (cmd, cb) => ipcRenderer.on(cmd, (e, data) => cb && cb(data)),
+  onceFrom: (cmd, cb) => ipcRenderer.once(cmd, (e, data) => cb && cb(data))
 })

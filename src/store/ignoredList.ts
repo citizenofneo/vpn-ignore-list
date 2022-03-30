@@ -8,12 +8,13 @@ const state = {
   updateHostList () {
     const blockedList = getBlockedList()
     ignoredHostsList.value = getLocalList().map(host => {
+    // ignoredHostsList.value = this.getFullList().map(host => {
       return {
         host,
         isActive: !blockedList.includes(host)
       }
     })
-    this.sendToMainIgnoreList()
+    this.sendToIgnoreList()
   },
   getFullList () {
     const blockedList = getBlockedList()
@@ -36,18 +37,18 @@ const state = {
       blockedList.unshift(host)
     }
     localStorage.setItem(nameBlocked, JSON.stringify(blockedList))
-    this.sendToMainIgnoreList()
+    this.sendToIgnoreList()
   },
   rmHost (host: string) {
     const list = getLocalList()
     list.splice(list.findIndex(h => h === host), 1)
     this.saveToLocal(list)
   },
-  sendToMainIgnoreList () {
-    api.sendToMain('ignoreList', this.getFullList())
+  sendToIgnoreList () {
+    api.sendTo('ignoreList', this.getFullList())
   }
 }
-api.onFromMain('getList', () => state.sendToMainIgnoreList())
+api.onFrom('getList', () => state.sendToIgnoreList())
 
 const nameSaved = '_localList'
 const nameBlocked = '_localListBlock'

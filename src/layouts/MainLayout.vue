@@ -14,8 +14,9 @@
         <!-- <q-toolbar-title></q-toolbar-title> -->
         <q-space />
         <q-tabs inline-label>
-          <q-route-tab icon="link" label="Hosts" to="/" exact />
-          <q-route-tab icon="reorder" label="Urls" to="/urls" exact />
+          <q-route-tab icon="dns" label="Servers" to="/" exact />
+          <q-route-tab icon="link" label="Hosts" to="/hosts" exact />
+          <!-- <q-route-tab icon="reorder" label="Urls" to="/urls" exact /> -->
         </q-tabs>
         <q-space />
         <div>
