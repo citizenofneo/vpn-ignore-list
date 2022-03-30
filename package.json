@@ -7,6 +7,8 @@
   "private": true,
   "scripts": {
     "electron": "npx quasar dev -m electron",
+    "build:win": "npx quasar build -m electron win32 -t mat -b builder",
+    "build:linux": "npx quasar build -m electron linux -t mat -b builder",
     "lint": "eslint --ext .js,.ts,.vue ./",
     "format": "prettier --write \"**/*.{js,ts,vue,scss,html,md,json}\" --ignore-path .gitignore",
     "test": "echo \"No test specified\" && exit 0"
@@ -17,7 +19,9 @@
     "@quasar/extras": "^1.0.0",
     "axios": "^0.21.1",
     "core-js": "^3.6.5",
+    "node-socks5": "^0.0.1",
     "quasar": "^2.6.0",
+    "shadowsocks-link-generator": "^2.0.1",
     "socket.io": "^4.4.1",
     "socket.io-client": "^4.4.1",
     "vue": "^3.0.0",
@@ -30,7 +34,7 @@
     "@typescript-eslint/parser": "^5.16.0",
     "electron": "^17.2.0",
     "electron-builder": "^22.4.0",
-    "electron-packager": "^15.2.0",
+    "electron-packager": "^15.4.0",
     "eslint": "^8.10.0",
     "eslint-config-prettier": "^8.1.0",
     "eslint-plugin-vue": "^8.5.0",
