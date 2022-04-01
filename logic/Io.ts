@@ -16,6 +16,7 @@ export default class Io {
   }
 
   emit (cmd: string, data?: any, cb?: (aData: any) => void) {
+    data = JSON.parse(JSON.stringify(data)) // no gooood
     this.nativeApi.sendTo('_io', { cmd, _id: this._id, data } as IoConnect)
     cb && (this.nativeApi.onceFrom || this.nativeApi?.onFrom)(cmd + '_' + this._id + '_io', cb)
     this._id++

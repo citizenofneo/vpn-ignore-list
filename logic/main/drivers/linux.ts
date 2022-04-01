@@ -1,10 +1,18 @@
+import { SsConfig } from 'app/logic/UI/helpers/ss-link'
 import asyncExec from '../asyncExec'
+import server from '../server'
 
 // unset all_proxy && unset ALL_PROXY
 export default {
-  async enable (list: string[]) {
+  async enable (config: SsConfig, list: string[]) {
+    const proxyRes = await this.setProxy(list)
+    server.start(config)
+    return proxyRes
+  },
+  async setProxy (ignoreList: string[]) {
     try {
-      const cmd = `gsettings set org.gnome.system.proxy ignore-hosts "${JSON.stringify(list).replace(/"/g, '\'')}"`.trim()
+      console.log('Set proxy Linux', ignoreList)
+      const cmd = `gsettings set org.gnome.system.proxy ignore-hosts "${JSON.stringify(ignoreList).replace(/"/g, '\'')}"`.trim()
       console.log(cmd)
       const bypassSet = await asyncExec(cmd)
       console.log('bypassSet', bypassSet)

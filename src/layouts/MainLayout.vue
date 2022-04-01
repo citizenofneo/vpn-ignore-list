@@ -19,15 +19,6 @@
           <!-- <q-route-tab icon="reorder" label="Urls" to="/urls" exact /> -->
         </q-tabs>
         <q-space />
-        <div>
-          <q-toggle
-            v-model="isEnabled"
-            checked-icon="check"
-            color="green"
-            :label="isEnabled ? 'On' : 'Off'"
-            unchecked-icon="clear"
-          />
-        </div>
       </q-toolbar>
     </q-header>
 
@@ -52,7 +43,6 @@
 <script lang="ts">
 import { defineComponent, ref } from 'vue'
 import EssentialLink from 'components/EssentialLink.vue'
-import mainState from 'src/store/mainState'
 const linksList = [
   {
     title: 'Docs',
@@ -73,7 +63,6 @@ export default defineComponent({
     const leftDrawerOpen = ref(false)
 
     return {
-      isEnabled: mainState.isEnabled,
       essentialLinks: linksList,
       leftDrawerOpen,
       toggleLeftDrawer () {

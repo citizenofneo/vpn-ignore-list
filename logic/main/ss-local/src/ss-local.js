@@ -4,7 +4,7 @@ const { StreamCryptor, AEADCryptor, CIPHERS } = require('./crypto')
 
 function buildLocalProxy (options) {
   const { host, port, password, method } = options
-  console.log({ host, port, method })
+  console.log('Start ss-local', { host, port, method })
   function onProxy (buffer, dist, sock) {
     const { isAEAD, ivLen } = CIPHERS[method]
     const cryptor = isAEAD

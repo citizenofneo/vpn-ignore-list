@@ -11,7 +11,7 @@ export default defineComponent({
   beforeCreate () {
     const $q = useQuasar()
     $q.dark.set('auto') // or false or "auto"
-    api.sendTo('platform', $q.platform.is.platform)
+    api.emit('platform', { platform: $q.platform.is.platform })
     console.log('Platform', $q.platform.is.platform)
   },
   name: 'App',

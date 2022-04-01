@@ -3,5 +3,6 @@ export type ServerConfig = {
     port: number,
     password: string,
     method: string,
-    isActivated?: boolean
+    isActivated?: boolean,
+    isWaitConnection?: boolean,
 }

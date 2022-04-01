@@ -21,47 +21,9 @@
           </template>
         </q-input>
       </div>
-      <q-scroll-area style="height: calc(100vh - 120px)" class="full-width q-ma-none">
-        <q-list separator class="full-width">
-          <q-item
-            dense
-            clickable
-            v-ripple
-            v-for="h in hosts"
-            :active="h.isActive"
-            :key="h.host"
-            v-show="h.host.includes(searchText)"
-          >
-            <q-item-section avatar>
-              <q-icon
-                :name="h.isActive ? 'broadcast_on_personal' : 'vpn_key'"
-              />
-            </q-item-section>
-            <q-item-section class="ellipsis">{{ h.host }}</q-item-section>
-            <q-item-section side class="right-buttons">
-              <q-toggle
-                class="col"
-                v-model="h.isActive"
-                @click="toggleBlock(h.host)"
-                checked-icon="check"
-                unchecked-icon="clear"
-                color="green"
-              />
-              <q-btn
-                size="8px"
-                @click="rmHost(h.host)"
-                class="glossy"
-                round
-                color="red"
-                icon="delete"
-              />
-            </q-item-section>
-          </q-item>
-        </q-list>
-      </q-scroll-area>
       <div
         class="full-width added-host q-center q-ma-lg"
-        v-show="!hosts.some((h) => h.host.includes(searchText))"
+        v-if="!hosts.some((h) => h.host.includes(searchText))"
       >
         You wand add host <span class="text-primary">{{ searchText }}</span
         >?
@@ -74,6 +36,54 @@
           label="Add host"
         />
       </div>
+      <q-scroll-area
+        v-else
+        style="height: calc(100vh - 120px)"
+        class="full-width q-ma-none"
+      >
+        <q-list separator class="full-width">
+          <transition-group
+            appear
+            enter-active-class="animated bounceInLeft"
+            leave-active-class="animated bounceOutRight"
+          >
+            <q-item
+              dense
+              clickable
+              v-ripple
+              v-for="h in hosts"
+              :active="h.isActive"
+              :key="h.host"
+              v-show="h.host.includes(searchText)"
+            >
+              <q-item-section avatar>
+                <q-icon
+                  :name="h.isActive ? 'broadcast_on_personal' : 'vpn_key'"
+                />
+              </q-item-section>
+              <q-item-section class="ellipsis">{{ h.host }}</q-item-section>
+              <q-item-section side class="right-buttons">
+                <q-toggle
+                  class="col"
+                  v-model="h.isActive"
+                  @click="toggleBlock(h.host)"
+                  checked-icon="check"
+                  unchecked-icon="clear"
+                  color="green"
+                />
+                <q-btn
+                  size="8px"
+                  @click="rmHost(h.host)"
+                  class="glossy"
+                  round
+                  color="red"
+                  icon="delete"
+                />
+              </q-item-section>
+            </q-item>
+          </transition-group>
+        </q-list>
+      </q-scroll-area>
     </div>
   </q-page>
 </template>

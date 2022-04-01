@@ -2,10 +2,8 @@ import { ipcMain, BrowserWindow } from 'electron'
 import Io from '../Io'
 
 let mainWin: BrowserWindow
+export const setMainWin = (mainWin_: BrowserWindow) => mainWin = mainWin_
 const api = {
-  setMainWin (mainWin_: BrowserWindow) {
-    mainWin = mainWin_
-  },
   sendTo (cmd: string, data = {}) {
     mainWin.webContents.send(cmd, data)
   },
@@ -16,7 +14,7 @@ const api = {
     ipcMain.once(cmd, (e, data) => cb && cb(data))
   }
 }
-export default api
+export default new Io(api)
 
 // const io = new Io(api)
 // io.on('testOnUi', (data, cb) => {

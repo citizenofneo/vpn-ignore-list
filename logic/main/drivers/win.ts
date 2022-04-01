@@ -2,9 +2,14 @@
 import path from 'path'
 import { app } from 'electron'
 import asyncExec from '../asyncExec'
+import { SsConfig } from 'app/logic/UI/helpers/ss-link'
 // https://github.com/Noisyfox/sysproxy
 export default {
-  async enable (list: string[]) {
+  async enable (config: SsConfig, list: string[]) {
+    const proxyRes = await this.setProxy(list)
+    return proxyRes
+  },
+  async setProxy (list: string[]) {
     try {
       const manualSet = await asyncExec(
         `${getPathRuntime('bin/win32/x64/sysproxy.exe')} global ${''}:${0} ${list.join(';')}`

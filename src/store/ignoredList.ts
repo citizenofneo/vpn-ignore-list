@@ -45,10 +45,9 @@ const state = {
     this.saveToLocal(list)
   },
   sendToIgnoreList () {
-    api.sendTo('ignoreList', this.getFullList())
+    api.emit('updIgnoreList', this.getFullList())
   }
 }
-api.onFrom('getList', () => state.sendToIgnoreList())
 
 const nameSaved = '_localList'
 const nameBlocked = '_localListBlock'
