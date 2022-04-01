@@ -12,27 +12,5 @@ export default {
   sysProxyWin: `${binPath}/sysproxy.exe}`,
   getLaunchSsArgh ({ host, method, port, password }: SsConfig, locaPort: number) {
     return ['-s', host, '-p', String(port), '-k', password, '-m', method, '-l', String(locaPort)]
-    // return [
-    //   '-s',
-    //   config.host,
-    //   '-p',
-    //   config.port.toString(),
-    //   //   '-l',
-    //   //   this.settings.localPort.toString(),
-    //   '-k',
-    //   config.password,
-    //   '-m',
-    //   config.method,
-    //   //   config.udp ? '-u' : '',
-    //   //   config.fastOpen ? '--fast-open' : '',
-    //   //   config.noDelay ? '--no-delay' : '',
-    //   //   config.plugin ? '--plugin' : '',
-    //   //   config.plugin ?? '',
-    //   //   config.pluginOpts ? '--plugin-opts' : '',
-    //   //   config.pluginOpts ?? '',
-    //   //   this.settings.verbose ? '-v' : '',
-    //   //   '-t',
-    // //   (config.timeout ?? '600').toString()
-    // ].filter(arg => arg !== '')
   }
 }

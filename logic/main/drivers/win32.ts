@@ -1,51 +1,23 @@
-
-import path from 'path'
-import { app } from 'electron'
 import asyncExec from '../asyncExec'
 import { SsConfig } from 'app/logic/UI/helpers/ss-link'
+import binUtils from '../server/binUtils'
+import server from '../server'
 // https://github.com/Noisyfox/sysproxy
+let currentConfig: SsConfig| null = null
 export default {
   async enable (config: SsConfig, list: string[]) {
-    const proxyRes = await this.setProxy(list)
-    return proxyRes
+    currentConfig = config
+    return await this.setProxy(list) && await server.start(config)
   },
   async setProxy (list: string[]) {
     try {
-      const manualSet = await asyncExec(
-        `${getPathRuntime('bin/win32/x64/sysproxy.exe')} global ${''}:${0} ${list.join(';')}`
-      )
-      return manualSet.code === 0
+      return (await asyncExec(`${binUtils.sysProxyWin} global ${currentConfig?.host}:${currentConfig?.port} ${list.join(';')}`)).code === 0
     } catch (error) {
-      console.log('Mac enable error:', error)
+      console.log('Win setProxy error:', error)
       return false
     }
   },
-  disable
+  async disable () {
+    return (await asyncExec(`${binUtils.sysProxyWin} set 1 - -`)).code === 0
+  }
 }
-
-async function disable () {
-  const result = await asyncExec(
-    `${getPathRuntime('bin/win32/x64/sysproxy.exe')} set 1 - -`
-  )
-  return result.code === 0
-}
-
-// export const setPacProxy = async (url: string) => {
-//   const autoSet = await asyncExec(
-//     `${getPathRuntime('bin/win32/x64/sysproxy.exe')} pac ${url}`
-//   )
-//   return autoSet.code === 0
-// }
-
-export const setGlobalProxy = async (host: string, port: number) => {
-  const manualSet = await asyncExec(
-    `${getPathRuntime('bin/win32/x64/sysproxy.exe')} global ${''}:${0} ${1}`
-  )
-  return manualSet.code === 0
-}
-
-const appDataPath = path.join(app.getPath('appData'), 'vpn-ignore-list')
-const pathRuntime = path.join(appDataPath, 'runtime/')
-
-// const getPathRoot = (p: string) => path.join(appDataPath, p)
-const getPathRuntime = (p: string) => path.join(pathRuntime, p)

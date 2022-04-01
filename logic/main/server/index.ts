@@ -1,13 +1,12 @@
 import { SsConfig } from '../../UI/helpers/ss-link'
 import binUtils from './binUtils'
 import { ChildProcessWithoutNullStreams, spawn } from 'child_process'
-import asyncExec from '../asyncExec'
 
 const isEnabled = false
 let ssLocalPs: ChildProcessWithoutNullStreams | null = null
 const port = 1080
 export default {
-  async start (config: SsConfig) {
+  async start (config: SsConfig): Promise<boolean> { // TODO: add check IP after connect
     await this.stop()
     return new Promise(r => {
       console.log('Start server:', binUtils.ssLocal, binUtils.getLaunchSsArgh(config, port))
@@ -25,10 +24,10 @@ export default {
   async stop () {
     if (!ssLocalPs) { return }
     try {
-      await wait(1)
       ssLocalPs.kill('SIGHUP')
       console.log('Server closed')
       ssLocalPs = null
+      await wait(1)
       return true
     } catch (e) {
       return false
