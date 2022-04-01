@@ -85,7 +85,7 @@ export default defineComponent({
           message: 'Push "ss:xxx" url:',
           prompt: {
             model:
-              'ss://Y2hhY2hhMjAtaWV0Zi1wb2x5MTMwNTpyb2h5bWJvazQ5ZDE2YmN2@87.236.146.25:8000',
+              '',
             type: 'text',
           },
           cancel: true,
