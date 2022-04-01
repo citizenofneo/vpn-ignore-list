@@ -45,7 +45,7 @@ function createWindow () {
     })
   }
   mainWindow.on('closed', () => {
-    server.stop()
+    // server.stop()
     mainWindow = null
   })
   init(mainWindow)

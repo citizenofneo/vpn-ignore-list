@@ -1,6 +1,7 @@
 const crypto = require('crypto')
 const { HKDFSha1 } = require('./hkdf-sha1')
 const { evpBytesToKey } = require('./evp')
+const chacha = require('chacha')
 
 const CIPHERS = {
   // AEAD: iv_len = salt_len = key_len
@@ -48,7 +49,7 @@ class AEADCryptor {
       inputKeyMaterial: this._encIKM })
       .expand(SS_INFO, keyLen)
     this._decSubKey = null
-    this._cipher = crypto.createCipheriv(this._method, this._encSubKey, this._encNonce, this._authTagLength)
+    this._cipher = chacha.createCipher(this._encSubKey, this._encNonce)
     this._decipher = null
     this._remain = null
   }
@@ -90,15 +91,20 @@ class AEADCryptor {
     ]).readInt16BE(0)
     this.incDecNonce()
     this.reInitDecipher()
-
+    console.log('********')
+    console.log('dataLenChunk', dataLenChunk)
     // decode data
     const dataStart = 2 + this._tagLen
     const dataTagStart = dataStart + dataLen
     const remainStart = dataTagStart + this._tagLen
 
+    console.log('chunk.len', chunk.length)
     const dataChunk = chunk.slice(dataStart, dataStart + dataLen)
-    console.log('rcv: ', dataLen)
+
+    console.log('rcv: ', dataLen, 'dataChunk.len', dataChunk.len)
+    console.log('dataTagStart: ', dataTagStart)
     const dataTag = chunk.slice(dataTagStart, dataTagStart + this._tagLen)
+    console.log('dataTag', dataTag)
     this._decipher.setAuthTag(dataTag)
     const data = Buffer.concat([
       this._decipher.update(dataChunk),
@@ -116,13 +122,13 @@ class AEADCryptor {
     nonceIncrement(this._encNonce, this._nonceLen)
   }
   reInitCipher () {
-    this._cipher = crypto.createCipheriv(this._method, this._encSubKey, this._encNonce, this._authTagLength)
+    this._cipher = chacha.createCipher(this._encSubKey, this._encNonce)
   }
   incDecNonce () {
     nonceIncrement(this._decNonce, this._nonceLen)
   }
   reInitDecipher () {
-    this._decipher = crypto.createDecipheriv(this._method, this._decSubKey, this._decNonce, this._authTagLength)
+    this._decipher = chacha.createDecipher(this._decSubKey, this._decNonce)
   }
   get encryptIV () { return this._encSault }
   set decryptIV (iv) {
@@ -133,7 +139,7 @@ class AEADCryptor {
       salt: this._decSault,
       inputKeyMaterial: this._decIKM })
       .expand(SS_INFO, this._keyLen)
-    this._decipher = crypto.createDecipheriv(this._method, this._decSubKey, this._decNonce, this._authTagLength)
+    this._decipher = chacha.createDecipher(this._decSubKey, this._decNonce)
   }
 }
 
