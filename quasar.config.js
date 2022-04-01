@@ -238,7 +238,13 @@ module.exports = configure(function (ctx) {
               ]
             }
           ]
-        }
+        },
+        'extraFiles': [
+          {
+            'from': 'bin/${platform}/${arch}',
+            'to': 'bin/${platform}/${arch}'
+          }
+        ],
       },
 
       // "chain" is a webpack-chain object https://github.com/neutrinojs/webpack-chain

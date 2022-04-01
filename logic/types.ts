@@ -6,3 +6,4 @@ export type ServerConfig = {
     isActivated?: boolean,
     isWaitConnection?: boolean,
 }
+export type Platform = 'linux' | 'darwin' | 'win32' | 'android' | 'ios'

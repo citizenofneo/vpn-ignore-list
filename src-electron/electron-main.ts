@@ -2,7 +2,6 @@ import { app, BrowserWindow, nativeTheme } from 'electron'
 import path from 'path'
 import os from 'os'
 import init from '../logic/main/init'
-import server from '../logic/main/server'
 // needed in case process is undefined under Linux
 const platform = process.platform || os.platform()
 const ENV = process.env as any

@@ -13,7 +13,7 @@ export default {
   async setProxy (ignoreList: string[]) {
     // try {
     console.log('Set proxy Linux', ignoreList)
-    return setGlobalProxy('127.0.0.1', 1080)
+    // return setGlobalProxy('127.0.0.1', 1080)
     //   const cmd = `gsettings set org.gnome.system.proxy ignore-hosts "${JSON.stringify(ignoreList).replace(/"/g, '\'')}"`.trim()
     //   console.log(cmd)
     //   const bypassSet = await asyncExec(cmd)
@@ -42,20 +42,20 @@ export default {
     //   portSet.code === 0 &&
     //   bypassSet.code === 0
     // )
-    // try {
-    //   return (await Promise.all([
-    //     asyncExec(`gsettings set org.gnome.system.proxy ignore-hosts "${JSON.stringify(ignoreList).replace(/"/g, '\'')}"`.trim()),
-    //     asyncExec('gsettings set org.gnome.system.proxy mode manual'),
-    //     asyncExec('gsettings set org.gnome.system.proxy.socks host "127.0.00.1"'),
-    //     asyncExec('gsettings set org.gnome.system.proxy.socks port 1080')
-    //   ])).reduce((res, cur) => {
-    //     return res && cur.code === 0
-    //   }, true)
-    // }
-    // catch (e) {
-    //   console.log('[setProxy]:s', e)
-    //   return false
-    // }
+    try {
+      return (await Promise.all([
+        asyncExec(`gsettings set org.gnome.system.proxy ignore-hosts "${JSON.stringify(ignoreList).replace(/"/g, '\'')}"`.trim()),
+        asyncExec('gsettings set org.gnome.system.proxy mode manual'),
+        asyncExec('gsettings set org.gnome.system.proxy.socks host "127.0.00.1"'),
+        asyncExec('gsettings set org.gnome.system.proxy.socks port 1080')
+      ])).reduce((res, cur) => {
+        return res && cur.code === 0
+      }, true)
+    }
+    catch (e) {
+      console.log('[setProxy]:s', e)
+      return false
+    }
 
   },
   async disable () {

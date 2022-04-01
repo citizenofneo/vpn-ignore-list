@@ -1,10 +1,10 @@
 import linux from './linux'
-import mac from './mac'
-import win from './win'
-import { Platform } from './types'
+import darwin from './darwin'
+import win32 from './win32'
+import { Platform } from './../../types'
 
 export default {
   linux,
-  mac,
-  win
+  darwin,
+  win32
 } as {[key in Platform]: typeof linux}
