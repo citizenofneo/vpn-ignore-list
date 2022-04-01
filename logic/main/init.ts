@@ -22,9 +22,9 @@ export default (mainWindow: BrowserWindow) => {
     }
   })
   api.on('turnOff', async (_, cb) => {
-    isEnabled = false
+    isEnabled = !isEnabled
     const res = await drv[storage.platform].disable()
-    isEnabled = res
+    isEnabled = !!res
     cb({ success: res })
   })
 

@@ -1,6 +1,7 @@
 import { exec, ExecOptions } from 'child_process'
 
 export default (command: string, options?: ExecOptions) => {
+  console.log(command)
   return new Promise<{
         code: number;
         stdout?: string;

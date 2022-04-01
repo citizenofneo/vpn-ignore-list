@@ -112,12 +112,16 @@ export default defineComponent({
       },
       toggleServer (config: ServerConfig) {
         config.isWaitConnection = true
-        apiUI.emit('turnOn', { config, list: ignoredList.getFullList() }, res => {
+        const currentState = config.isActivated
+        servers.savedServers.value.forEach(s => s.isActivated = false)
+        apiUI.emit(currentState ? 'turnOff' : 'turnOn', { config, list: ignoredList.getFullList() }, res => {
           console.log(res)
+
           setTimeout(() => {
-            servers.savedServers.value.forEach(s => s.isActivated = false)
             config.isWaitConnection = false
-            config.isActivated = res.success
+            if (res.success) {
+              config.isActivated = !currentState
+            }
           }, 500)
         })
       },
