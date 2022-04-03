@@ -13,7 +13,7 @@ const binPath = (process.env.NODE_ENV === 'development'
 export default {
   binPath,
   ssLocal: `${binPath}/ss-local${(platform === 'win32' ? '.exe' : '')}`,
-  sysProxyWin: `${binPath}/sysproxy.exe}`,
+  sysProxyWin: `${binPath}\\sysproxy.exe.replace(/\//g, '\\')`,
   getLaunchSsArgh ({ host, method, port, password }: SsConfig, locaPort: number) {
     return ['-s', host, '-p', String(port), '-k', password, '-m', method, '-l', String(locaPort)]
   }
