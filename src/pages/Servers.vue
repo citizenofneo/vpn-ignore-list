@@ -58,12 +58,14 @@
           label="Add vpn"
         />
       </div>
+      <small v-if="errors.length">Errors</small>
+      <small v-for="e in errors" :key="e" >{{e.error}}</small>
     </div>
   </q-page>
 </template>
 
 <script lang="ts">
-import { defineComponent, ref } from 'vue'
+import { defineComponent, Ref, ref } from 'vue'
 import servers from '../store/servers'
 import ignoredList from '../store/ignoredList'
 import ssLink from '../../logic/UI/helpers/ss-link'
@@ -76,7 +78,11 @@ export default defineComponent({
   setup () {
     const $q = useQuasar()
     const isWaitConnection = ref(false)
+    const errors: Ref<{error: string}[]> = ref([])
+    apiUI.emit('mainHasError', {}, (data: {error: string}) => errors.value.push(data))
+
     return {
+      errors,
       isWaitConnection,
       addVpnDialog () {
         $q.dialog({

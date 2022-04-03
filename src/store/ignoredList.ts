@@ -25,6 +25,8 @@ const state = {
     this.updateHostList()
   },
   addHost (host: string) {
+    host.includes('://') && (host = host.split('://')[1])
+    host.endsWith('/') && (host = host.slice(0, -1))
     const local = getLocalList()
     local.unshift(host)
     this.saveToLocal(local)

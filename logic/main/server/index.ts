@@ -1,6 +1,7 @@
 import { SsConfig } from '../../UI/helpers/ss-link'
 import binUtils from './binUtils'
 import { ChildProcessWithoutNullStreams, spawn } from 'child_process'
+import api from '../apiMain'
 
 const isEnabled = false
 let ssLocalPs: ChildProcessWithoutNullStreams | null = null
@@ -17,6 +18,7 @@ export default {
       })
       ssLocalPs.stderr.on('data', (data: string) => {
         console.error(`Server stderr: ${data}`)
+        api.emit('mainHasError', { error: '[ss-local error]: ' + data })
         r(false)
       })
     })

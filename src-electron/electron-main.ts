@@ -2,6 +2,7 @@ import { app, BrowserWindow, nativeTheme } from 'electron'
 import path from 'path'
 import os from 'os'
 import init from '../logic/main/init'
+
 // needed in case process is undefined under Linux
 const platform = process.platform || os.platform()
 const ENV = process.env as any
@@ -14,11 +15,13 @@ try {
 catch (_) { }
 
 export let mainWindow: BrowserWindow | null
+let disableServer: () => void
 
 function createWindow () {
   /**
    * Initial window options
    */
+
   mainWindow = new BrowserWindow({
     icon: path.resolve(__dirname, 'icons/icon.png'), // tray icon
     width: process.env.DEBUGGING ? 700 : 350,
@@ -44,15 +47,16 @@ function createWindow () {
     })
   }
   mainWindow.on('closed', () => {
-    // server.stop()
+    disableServer()
     mainWindow = null
   })
-  init(mainWindow)
+  disableServer = init(mainWindow)
 }
 
 app.whenReady().then(createWindow)
 
 app.on('window-all-closed', () => {
+  disableServer()
   if (platform !== 'darwin') {
     app.quit()
   }

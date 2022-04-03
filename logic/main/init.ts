@@ -22,10 +22,7 @@ export default (mainWindow: BrowserWindow) => {
     }
   })
   api.on('turnOff', async (_, cb) => {
-    isEnabled = !isEnabled
-    const res = await drv[platform].disable()
-    isEnabled = !!res
-    cb({ success: res })
+    cb({ success: await disableServer() })
   })
 
   api.on('updIgnoreList', async (list: string[]) => {
@@ -33,4 +30,12 @@ export default (mainWindow: BrowserWindow) => {
     if (!isEnabled) { return }
     drv[platform].setProxy(list)
   })
+
+  const disableServer = async () => {
+    isEnabled = !isEnabled
+    const res = await drv[platform].disable()
+    isEnabled = !!res
+    return isEnabled
+  }
+  return disableServer
 }
